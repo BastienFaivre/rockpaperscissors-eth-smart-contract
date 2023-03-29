@@ -195,4 +195,32 @@ contract RockPaperScissors {
 
         return outcome;
     }
+
+    function getContractBalance() public view returns (uint) {
+        return address(this).balance;
+    }
+
+    function whoAmI() public view returns (uint) {
+        if (msg.sender == player1) {
+            return 1;
+        } else if (msg.sender == player2) {
+            return 2;
+        }
+        return 0;
+    }
+
+    function bothPlayed() public view returns (bool) {
+        return encryptedChoicePlayer1 != 0x0 && encryptedChoicePlayer2 != 0x0;
+    }
+
+    function bothRevealed() public view returns (bool) {
+        return choicePlayer1 != Choices.None && choicePlayer2 != Choices.None;
+    }
+
+    function revealTimeLeft() public view returns (int) {
+        if (firstRevealTimestamp != 0) {
+            return int(firstRevealTimestamp + REVEAL_TIMEOUT - block.timestamp);
+        }
+        return int(REVEAL_TIMEOUT);
+    }
 }
